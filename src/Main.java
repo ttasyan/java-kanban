@@ -44,8 +44,8 @@ public class Main {
         System.out.println("printing sub tasks again");
         taskManager.printSubTask();
 
-        taskManager.deleteSubTask(4);
-        taskManager.deleteSubTask(5);
+        taskManager.deleteSubTask(4,3);
+        taskManager.deleteSubTask(5, 3);
         taskManager.deleteEpic(3);
 
         System.out.println("printing tasks again and again");
