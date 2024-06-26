@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-    TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = new TaskManager();
 
         Task task1 = new Task( 1,"task 1", "Description 1");
         Task task2 = new Task( 2,"Task 2", "Description 2");
@@ -59,3 +59,4 @@ public class Main {
 
     }
 }
+
