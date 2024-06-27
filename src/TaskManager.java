@@ -8,7 +8,6 @@ public class TaskManager {
     int taskId = 1;
 
     public TaskManager() {
-        this.taskId = 1;
     }
 
 
@@ -51,6 +50,11 @@ public class TaskManager {
     }
 
     public void deleteEpics() {
+
+        for (Epic epic : epics.values()) {
+            epic.getSubTasksId().clear();
+            subTasks.clear();
+        }
         epics.clear();
 
     }
@@ -141,6 +145,7 @@ public class TaskManager {
                 }
                 if (subTasksTemp.isEmpty()) {
                     epic.setStatus(Status.NEW);
+                    return;
                 } else {
 
                     boolean checkStatusNew = true;
