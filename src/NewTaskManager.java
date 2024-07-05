@@ -1,6 +1,13 @@
 import java.util.List;
+import java.util.Map;
 
 public interface NewTaskManager {
+    Map<Integer, Task> getTasks();
+
+    Map<Integer, Epic> getEpics();
+
+    public Map<Integer, SubTask> getSubTasks();
+
     void addTask(Task task);
 
     void addEpic(Epic epic);

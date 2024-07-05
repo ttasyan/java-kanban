@@ -236,13 +236,12 @@ public class InMemoryTaskManager implements NewTaskManager {
 
     @Override
     public List<Task> getHistory() {
-        if (historyManager.getHistory().size() > 10) {
-            historyManager.getHistory().remove(0);
+        List<Task> history = new ArrayList<>(historyManager.getHistory());
+        if (history.size() > 10) {
+            history.remove(0);
         }
-        for (Task h : historyManager.getHistory()) {
-            System.out.println(h);
-        }
-        return historyManager.getHistory();
+
+        return history;
     }
 }
 
