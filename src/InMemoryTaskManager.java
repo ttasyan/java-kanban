@@ -1,19 +1,32 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
- public class InMemoryTaskManager implements NewTaskManager {
-    HashMap<Integer, Task> tasks = new HashMap<>();
-    HashMap<Integer, Epic> epics = new HashMap<>();
-    HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    ArrayList<Task> history = new ArrayList<>();
+public class InMemoryTaskManager implements NewTaskManager {
+
+    private Map<Integer, Task> tasks = new HashMap<>();
+    private Map<Integer, Epic> epics = new HashMap<>();
+    private Map<Integer, SubTask> subTasks = new HashMap<>();
     HistoryManager historyManager;
 
     int taskId = 1;
 
-     public InMemoryTaskManager() {
-         this.historyManager = Managers.getDefaultHistory();
-     }
+    public InMemoryTaskManager() {
+        this.historyManager = Managers.getDefaultHistory();
+    }
 
+    public Map<Integer, Task> getTasks() {
+        return tasks;
+    }
+
+    public Map<Integer, Epic> getEpics() {
+        return epics;
+    }
+
+    public Map<Integer, SubTask> getSubTasks() {
+        return subTasks;
+    }
 
 
     @Override
@@ -45,16 +58,19 @@ import java.util.HashMap;
 
     @Override
     public Task getTaskById(int id) {
+        historyManager.add(tasks.get(id));
         return tasks.get(id);
     }
 
     @Override
     public Epic getEpicById(int id) {
+        historyManager.add(epics.get(id));
         return epics.get(id);
     }
 
     @Override
     public SubTask getSubTaskById(int id) {
+        historyManager.add(subTasks.get(id));
         return subTasks.get(id);
     }
 
@@ -127,19 +143,19 @@ import java.util.HashMap;
 
     @Override
     public Task getTask(int id) {
-        history.add(tasks.get(id));
+        historyManager.add(tasks.get(id));
         return tasks.get(id);
     }
 
     @Override
     public Epic getEpic(int id) {
-        history.add(epics.get(id));
+        historyManager.add(epics.get(id));
         return epics.get(id);
     }
 
     @Override
     public SubTask getSubTask(int id) {
-        history.add(subTasks.get(id));
+        historyManager.add(subTasks.get(id));
         return subTasks.get(id);
     }
 
@@ -181,6 +197,7 @@ import java.util.HashMap;
                 for (SubTask subTask : subTasksTemp) {
                     if (subTask != null && !(subTask.getStatus().equals(Status.NEW))) {
                         checkStatusNew = false;
+                        break;
                     }
                 }
 
@@ -211,19 +228,21 @@ import java.util.HashMap;
             SubTask subTask = subTasks.get(subTaskId);
             if (subTask != null) {
                 subTasks.add(subTask);
-                history.add(subTask);
+                historyManager.add(subTask);
             }
         }
         return subTasks;
     }
-     @Override
-     public void getHistory() {
-        if (history.size() > 10) {
-            history.remove(0);
+
+    @Override
+    public List<Task> getHistory() {
+        if (historyManager.getHistory().size() > 10) {
+            historyManager.getHistory().remove(0);
         }
-         for (Task h : history) {
-             System.out.println(h);;
-         }
-     }
+        for (Task h : historyManager.getHistory()) {
+            System.out.println(h);
+        }
+        return historyManager.getHistory();
+    }
 }
 
