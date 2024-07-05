@@ -1,12 +1,11 @@
 import java.util.List;
-import java.util.Map;
 
 public interface TaskManager {
-    Map<Integer, Task> getTasks();
+    List<Task> getTasks();
 
-    Map<Integer, Epic> getEpics();
+    List<Epic> getEpics();
 
-    public Map<Integer, SubTask> getSubTasks();
+    List<SubTask> getSubTasks();
 
     void addTask(Task task);
 

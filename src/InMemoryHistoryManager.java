@@ -18,6 +18,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         for (Task h : history) {
             System.out.println(h);;
         }
-        return history;
+        return new ArrayList<>(history);
     }
 }
