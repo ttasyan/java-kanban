@@ -1,5 +1,5 @@
 public class Task {
-    private String name;
+
     private String description;
     private int id;
     protected Status status;
@@ -46,4 +46,14 @@ public class Task {
     public void setId(int id) {
         this.id = id;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String name;
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }
