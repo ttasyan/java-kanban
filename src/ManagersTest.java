@@ -13,7 +13,7 @@ public class ManagersTest {
 
     @Test
     public void testGetDefaultTaskManager() {
-        NewTaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Managers.getDefault();
         assertNotNull(taskManager);
         assertTrue(taskManager instanceof InMemoryTaskManager);
     }

@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Map;
 
-public interface NewTaskManager {
+public interface TaskManager {
     Map<Integer, Task> getTasks();
 
     Map<Integer, Epic> getEpics();

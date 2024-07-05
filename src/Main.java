@@ -24,7 +24,7 @@ public class Main {
         printAllTasks(taskManager);
     }
 
-    public static void printAllTasks(NewTaskManager manager) {
+    public static void printAllTasks(TaskManager manager) {
         System.out.println("Задачи:");
 
         System.out.println(manager.getTask(1));
