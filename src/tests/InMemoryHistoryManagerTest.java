@@ -1,3 +1,6 @@
+package tests;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
@@ -14,7 +17,7 @@ public class InMemoryHistoryManagerTest {
         historyManager.add(task);
         List<Task> history = historyManager.getTasks();
         assertEquals(1, history.size());
-        assertEquals(task, history.get(0));
+        Assert.assertEquals(task, history.get(0));
     }
 
     @Test
@@ -36,7 +39,7 @@ public class InMemoryHistoryManagerTest {
         List<Task> history = historyManager.getTasks();
         historyManager.remove(task1.getId());
         assertEquals(1, history.size());
-        assertEquals(task2, history.get(0));
+        Assert.assertEquals(task2, history.get(0));
 
     }
 
