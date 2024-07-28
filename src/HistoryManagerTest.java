@@ -8,10 +8,10 @@ public class HistoryManagerTest {
     @Test
     public void addTaskTest() {
         HistoryManager historyManager = Managers.getDefaultHistory();
-        Task task = new Task(1, "Task 1", "Description");
+        Task task = new Task("Task 1", "Description");
         historyManager.add(task);
-        assertEquals(task, historyManager.getHistory().get(0));
+        assertEquals(task, historyManager.getTasks().get(0));
         task.setName("New name");
-        assertNotEquals("Task 1", historyManager.getHistory().get(0).getName());
+        assertNotEquals("Task 1", historyManager.getTasks().get(0).getName());
     }
 }
