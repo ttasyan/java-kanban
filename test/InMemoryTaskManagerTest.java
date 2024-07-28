@@ -1,6 +1,6 @@
 import managers.InMemoryTaskManager;
 import org.junit.Assert;
-import org.testng.annotations.Test;
+import org.junit.Test;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
