@@ -4,7 +4,7 @@ public class Task {
     private int id;
     protected Status status;
 
-    public Task( String name, String description) {
+    public Task(String name, String description) {
         this.name = name;
         this.description = description;
         this.id = id;
@@ -20,7 +20,6 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
-
 
 
     public Integer getId() {
@@ -46,6 +45,7 @@ public class Task {
     public void setId(int id) {
         this.id = id;
     }
+
     public void setName(String name) {
         this.name = name;
     }
