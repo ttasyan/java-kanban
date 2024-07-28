@@ -5,8 +5,4 @@ on:
 
 jobs:
   build:
-     steps:
-      - name: Compile and run Java code
-        run: |
-          find./src/test -type f -name "*.java" > tests.txt
-          javac -d out -cp./out:./src/test/lib/junit-platform-console-standalone-1.9.3.jar:./src/test/lib/gson-2.10.1.jar:./src/test @tests.txt
+     uses: yandex-praktikum/java-kanban/.github/workflows/api-tests.yml@ci
