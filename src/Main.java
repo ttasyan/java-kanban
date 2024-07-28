@@ -1,3 +1,9 @@
+import managers.InMemoryTaskManager;
+import managers.TaskManager;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
+
 import java.util.List;
 
 public class Main {
@@ -7,7 +13,7 @@ public class Main {
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
         Task task1 = new Task("task 1", "Description 1");
-        Task task2 = new Task("Task 2", "Description 2");
+        Task task2 = new Task("tasks.Task 2", "Description 2");
         taskManager.addTask(task1);
         taskManager.addTask(task2);
 

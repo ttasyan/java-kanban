@@ -1,5 +1,6 @@
 package tests;
 
+import managers.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;

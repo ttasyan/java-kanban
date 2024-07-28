@@ -1,3 +1,7 @@
+package managers;
+
+import tasks.Task;
+
 public class Node<T extends Task> {
     Task data;
     Node<T> prev;
