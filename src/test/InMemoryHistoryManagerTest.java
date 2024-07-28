@@ -1,4 +1,4 @@
-package tests;
+package test;
 
 import managers.InMemoryHistoryManager;
 import org.junit.Assert;
