@@ -11,7 +11,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private Node head;
     private Node tail;
-    Map<Integer, Node> history = new HashMap<>();
+    private Map<Integer, Node> history = new HashMap<>();
 
     @Override
     public void add(Task task) {
@@ -38,8 +38,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (tail == null) {
             head = node;
         } else {
-            tail.next = node;
-            node.prev = tail;
+            tail.setNext(node);
+            node.setPrev(tail);
         }
         tail = node;
     }
@@ -47,8 +47,10 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getTasks() {
         List<Task> arrayHistory = new ArrayList<>();
-        for (Node node : history.values()) {
-            arrayHistory.add(node.data);
+        Node n = head;
+        while (n != null) {
+            arrayHistory.add(n.getData());
+            n = n.getNext();
         }
 
         return arrayHistory;
@@ -56,16 +58,16 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     public void removeNode(Node node) {
-        history.remove(node.data.getId());
-        if (node.prev != null) {
-            node.prev.next = node.next;
+        history.remove(node.getData().getId());
+        if (node.getPrev() != null) {
+            node.getPrev().setNext(node.getNext());
         } else {
-            head = node.next;
+            head = node.getNext();
         }
-        if (node.next != null) {
-            node.next.prev = node.prev;
+        if (node.getNext() != null) {
+            node.getNext().setPrev(node.getPrev());
         } else {
-            tail = node.prev;
+            tail = node.getPrev();
         }
 
     }
