@@ -1,5 +1,9 @@
 package tasks;
 
+import managers.Types;
+
+import static managers.Types.TASK;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -11,6 +15,13 @@ public class Task {
     private Duration duration;
     private LocalDateTime startTime;
 
+    public Types getType() {
+        return type;
+    }
+
+    private Types type = TASK;
+
+    public Task(String name, String description) {
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -22,6 +33,13 @@ public class Task {
         this.status = Status.NEW;
         this.duration = duration;
         this.startTime = startTime;
+    }
+
+    public Task(int id, String name, String status, String description) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = Status.NEW;
     }
 
     @Override
@@ -72,5 +90,6 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+
 
 }
