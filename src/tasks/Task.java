@@ -1,12 +1,29 @@
 package tasks;
 
+import managers.Types;
+
+import static managers.Types.TASK;
+
 public class Task {
 
     private String description;
     private int id;
     protected Status status;
 
+    public Types getType() {
+        return type;
+    }
+
+    private Types type = TASK;
+
     public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = Status.NEW;
+    }
+
+    public Task(int id, String name, String status, String description) {
         this.name = name;
         this.description = description;
         this.id = id;
@@ -57,5 +74,6 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+
 
 }
