@@ -14,7 +14,6 @@ public class FileBackedTaskManagerTest {
     public void loadEmptyFileTest() throws IOException {
         File file = File.createTempFile("taskmanager", ".tmp");
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
-        manager.save();
         FileBackedTaskManager loadManager = new FileBackedTaskManager(file);
         loadManager.loadFromFile(file);
 
