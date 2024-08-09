@@ -51,7 +51,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    public void save() {
+    private void save() {
         try (FileWriter writer = new FileWriter(filename)) {
             writer.write("id,type,name,status,description,epic");
             writer.write("\n");
@@ -66,7 +66,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException(new ManagerSaveException("Произошла ошибка во время записи файла", e));
+            throw new ManagerSaveException("Произошла ошибка во время записи файла", e);
         }
     }
 
@@ -89,7 +89,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
             br.close();
         } catch (IOException e) {
-            throw new RuntimeException(new ManagerSaveException("Произошла ошибка во время чтения файла", e));
+            throw new ManagerSaveException("Произошла ошибка во время чтения файла", e);
         }
     }
 
