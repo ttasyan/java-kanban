@@ -2,10 +2,7 @@ package managers;
 
 import tasks.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -14,6 +11,7 @@ public class InMemoryTaskManager implements TaskManager {
     private Map<Integer, SubTask> subTasks = new HashMap<>();
     private HistoryManager historyManager;
 
+    Set<Task> prioritizedTasks = getPrioritizedTasks();
     private int taskId = 1;
 
     public InMemoryTaskManager() {
@@ -41,6 +39,16 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(taskId);
         taskId++;
         tasks.put(task.getId(), task);
+        if (task.getStartTime() != null) {
+
+            if (prioritizedTasks.stream().
+                    anyMatch(prioritizedTask -> isCrossing(prioritizedTask, task)
+                            || (isCrossing(task, prioritizedTask)))) {
+                System.out.println("Задача пересекается с другой.");
+            } else {
+                prioritizedTasks.add(task);
+            }
+        }
     }
 
     @Override
@@ -48,6 +56,7 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setId(taskId);
         taskId++;
         epics.put(epic.getId(), epic);
+
     }
 
     @Override
@@ -60,7 +69,15 @@ public class InMemoryTaskManager implements TaskManager {
             epic.getSubTasksId().add(subTask.getId());
             updateEpicStatus(epicId);
         }
-
+        if (subTask.getStartTime() != null) {
+            if (prioritizedTasks.stream().
+                    anyMatch(prioritizedTask -> isCrossing(prioritizedTask, subTask)
+                            || (isCrossing(subTask, prioritizedTask)))) {
+                System.out.println("Подзадача пересекается с другой.");
+            } else {
+                prioritizedTasks.add(subTask);
+            }
+        }
     }
 
     @Override
@@ -255,5 +272,19 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return history;
     }
+
+    public Set<Task> getPrioritizedTasks() {
+         return new TreeSet<>(new Comparator<Task>() {
+             @Override
+             public int compare(Task t1, Task t2) {
+                 return t1.getStartTime().compareTo(t2.getStartTime());
+             }
+         });
+    }
+
+    public boolean isCrossing(Task task1, Task task2) {
+        return task1.getEndTime().isAfter(task2.getStartTime());
+    }
 }
+
 
