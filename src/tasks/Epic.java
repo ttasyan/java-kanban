@@ -90,8 +90,5 @@ public class Epic extends Task {
         return subTasksId;
     }
 
-    @Override
-    public Types getType() {
-        return type;
-    }
+
 }
