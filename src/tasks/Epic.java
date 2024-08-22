@@ -1,16 +1,19 @@
 package tasks;
 
+
 import managers.InMemoryTaskManager;
 import managers.TaskManager;
 import managers.Types;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
     private List<Integer> subTasksId = new ArrayList<>();
+
     private Duration duration;
     private Types type = Types.EPIC;
 
@@ -21,6 +24,7 @@ public class Epic extends Task {
     public Duration getDuration() {
         return duration;
     }
+
 
     private LocalDateTime startTime;
 
@@ -34,6 +38,14 @@ public class Epic extends Task {
             duration = null;
         }
         this.subTasksId = new ArrayList<>();
+    }
+
+    public Epic(int id, String name, String status, String description) {
+        super(id, name, status, description);
+    }
+
+    public Types getType() {
+        return type;
     }
 
     public void addSubTask(SubTask subTask) {

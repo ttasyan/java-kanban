@@ -32,6 +32,7 @@ public class FileBackedTaskManagerTest {
         SubTask subTask1 = new SubTask(3, "st1.1", "subtask1.1", 1);
         SubTask subTask2 = new SubTask(4, "st1.2", "subtask1.2", 1);
 
+
         manager.addTask(task1);
         manager.addEpic(epic1);
         manager.addSubTask(subTask1, epic1.getId());
