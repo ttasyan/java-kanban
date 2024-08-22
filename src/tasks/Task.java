@@ -4,8 +4,10 @@ import managers.Types;
 
 import static managers.Types.TASK;
 
+
 import java.time.Duration;
 import java.time.LocalDateTime;
+
 
 public class Task {
 
@@ -21,11 +23,13 @@ public class Task {
 
     private Types type = TASK;
 
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
     public Task(String name, String description, LocalDateTime startTime, Duration duration) {
+
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
@@ -37,6 +41,13 @@ public class Task {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.status = Status.NEW;
+    }
+
+    public Task(int id, String name, String status, String description) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
         this.status = Status.NEW;
     }
 
@@ -91,6 +102,7 @@ public class Task {
     }
 
 
+
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
@@ -102,4 +114,5 @@ public class Task {
     public void setType(Types type) {
         this.type = type;
     }
+
 }
