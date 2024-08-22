@@ -3,6 +3,7 @@ package managers;
 import tasks.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -76,6 +77,7 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println("Подзадача пересекается с другой.");
             } else {
                 prioritizedTasks.add(subTask);
+                epic.getEndTime();
             }
         }
     }
@@ -151,13 +153,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpic(int id) {
-        List<Integer> subtaskIds = epics.get(id).getSubTasksId();
-        for (Integer subtaskId : subtaskIds) {
-            subTasks.remove(subtaskId);
-            historyManager.remove(subtaskId);
-
-
-        }
+        epics.get(id).getSubTasksId().stream()
+                .peek(subTaskId -> subTasks.remove(subTaskId))
+                .peek(historyManager::remove)
+                .forEach(_ -> {
+                });
         epics.remove(id);
         historyManager.remove(id);
 
@@ -227,18 +227,18 @@ public class InMemoryTaskManager implements TaskManager {
                 for (SubTask subTask : subTasksTemp) {
                     if (subTask != null && !(subTask.getStatus().equals(Status.NEW))) {
                         checkStatusNew = false;
-                        break;
                     }
                 }
 
                 for (SubTask subTask : subTasksTemp) {
                     if (subTask != null && !(subTask.getStatus().equals(Status.DONE))) {
                         checkStatusDone = false;
+
                     }
                 }
-                if (checkStatusNew) {
+                if (checkStatusNew && !checkStatusDone) {
                     epic.setStatus(Status.NEW);
-                } else if (checkStatusDone) {
+                } else if (checkStatusDone && !checkStatusNew) {
                     epic.setStatus(Status.DONE);
                 } else {
                     epic.setStatus(Status.IN_PROGRESS);
@@ -248,20 +248,17 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<SubTask> getSubTasksByEpicId(int epicId) {
+    public List<SubTask> getSubTasksByEpicId(int epicId) {
         Epic epic = epics.get(epicId);
         if (epic == null) {
             return new ArrayList<>();
         }
-        ArrayList<SubTask> subTasks = new ArrayList<>();
-        for (int subTaskId : epic.getSubTasksId()) {
-            SubTask subTask = subTasks.get(subTaskId);
-            if (subTask != null) {
-                subTasks.add(subTask);
-                historyManager.add(subTask);
-            }
-        }
-        return subTasks;
+        return epic.getSubTasksId().stream()
+                .map(subTaskId -> subTasks.get(subTaskId))
+                .filter(subTaskId -> subTaskId != null)
+                .peek(historyManager::add)
+                .collect(Collectors.toList());
+
     }
 
     @Override
@@ -274,14 +271,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public Set<Task> getPrioritizedTasks() {
-         return new TreeSet<>(new Comparator<Task>() {
-             @Override
-             public int compare(Task t1, Task t2) {
-                 return t1.getStartTime().compareTo(t2.getStartTime());
-             }
-         });
+        return new TreeSet<>(new Comparator<Task>() {
+            @Override
+            public int compare(Task t1, Task t2) {
+                return t1.getStartTime().compareTo(t2.getStartTime());
+            }
+        });
     }
 
+    @Override
     public boolean isCrossing(Task task1, Task task2) {
         return task1.getEndTime().isAfter(task2.getStartTime());
     }

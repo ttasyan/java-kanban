@@ -1,6 +1,7 @@
 package managers;
 
 import tasks.Epic;
+import tasks.Status;
 import tasks.SubTask;
 import tasks.Task;
 
@@ -18,11 +19,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public static void main(String[] args) throws IOException {
         File file = File.createTempFile("taskmanager", ".tmp");
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
-        Task task1 = new Task("task 1", "Description 1");
-        Task task2 = new Task("task 2", "Description 2");
-        Epic epic1 = new Epic("epic1", "description");
-        SubTask subTask1 = new SubTask("st1.1", "subtask1.1", epic1.getId());
-        SubTask subTask2 = new SubTask("st1.2", "subtask1.2", epic1.getId());
+        Task task1 = new Task(1, "task 1", "Description 1");
+        Task task2 = new Task(2, "task 2", "Description 2");
+        Epic epic1 = new Epic(3, "epic1", "description");
+        SubTask subTask1 = new SubTask(4, "st1.1", "subtask1.1", epic1.getId());
+        SubTask subTask2 = new SubTask(5, "st1.2", "subtask1.2", epic1.getId());
 
         manager.addTask(task1);
         manager.addTask(task2);
@@ -204,19 +205,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         int id = Integer.parseInt(parts[0]);
         String type = parts[1];
         String name = parts[2];
-        String status = parts[3];
+        Status status = Status.valueOf(parts[3]);
         String description = parts[4];
 
 
         if (type.equals("TASK")) {
-            Task task = new Task(id, name, status, description);
+            Task task = new Task(id, name, description);
+            task.setStatus(status);
             return task;
         } else if (type.equals("EPIC")) {
-            Epic task = new Epic(id, name, status, description);
+            Epic task = new Epic(id, name, description);
+            task.setStatus(status);
             return task;
         } else if (type.equals("SUBTASK")) {
             int epicId = Integer.parseInt(parts[5]);
-            SubTask task = new SubTask(id, name, status, description, epicId);
+            SubTask task = new SubTask(id, name, description, epicId);
+            task.setStatus(status);
             return task;
         } else {
             throw new RuntimeException("Произошла ошибка");
