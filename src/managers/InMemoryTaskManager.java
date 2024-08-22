@@ -156,7 +156,7 @@ public class InMemoryTaskManager implements TaskManager {
         epics.get(id).getSubTasksId().stream()
                 .peek(subTaskId -> subTasks.remove(subTaskId))
                 .peek(historyManager::remove)
-                .forEach(_ -> {
+                .forEach(subTaskId -> {
                 });
         epics.remove(id);
         historyManager.remove(id);
