@@ -27,7 +27,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         SubTask subTask1 = new SubTask(4, "st1.1", "subtask1.1", epic1.getId());
         SubTask subTask2 = new SubTask(5, "st1.2", "subtask1.2", epic1.getId());
 
-   
 
         manager.addTask(task1);
         manager.addTask(task2);
