@@ -1,7 +1,6 @@
 import managers.InMemoryTaskManager;
 import managers.TaskManager;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import tasks.Epic;
 import tasks.Status;
@@ -25,7 +24,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void addEpicTest() {
-        Epic epic = new Epic(1, "tasks.Epic 1", "epic description");
+        Epic epic = new Epic(1, "tasks.Epic 1", "epic description", LocalDateTime.now());
         taskManager.addEpic(epic);
         Assert.assertEquals(epic, taskManager.getEpic(epic.getId()));
     }
@@ -53,7 +52,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void addTasksAndFindById() {
-        Epic epic = new Epic(1, "tasks.Epic 1", "Description");
+        Epic epic = new Epic(1, "tasks.Epic 1", "Description", LocalDateTime.now());
         SubTask subtask = new SubTask("Subtask 1", "Description", LocalDateTime.now(), Duration.ofMinutes(15), epic.getId());
         Task task = new Task("tasks.Task 1", "Description", LocalDateTime.now().plus(Duration.ofMinutes(16)), Duration.ofMinutes(15));
 
@@ -89,7 +88,7 @@ public class InMemoryTaskManagerTest {
     @Test
     public void subtaskRemovalTest() {
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
-        Epic epic = new Epic(1, "tasks.Epic 1", "Description 1");
+        Epic epic = new Epic(1, "tasks.Epic 1", "Description 1", LocalDateTime.now());
         SubTask subtask = new SubTask("Subtask 1", "Description 1.1", LocalDateTime.now(), Duration.ofMinutes(15), epic.getId());
         taskManager.addEpic(epic);
         taskManager.addSubTask(subtask, epic.getId());
@@ -100,7 +99,7 @@ public class InMemoryTaskManagerTest {
     @Test
     public void epicRemovalTest() {
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
-        Epic epic = new Epic(1, "tasks.Epic 1", "Description 1");
+        Epic epic = new Epic(1, "tasks.Epic 1", "Description 1", LocalDateTime.now());
         SubTask subtask = new SubTask("Subtask 1", "Description 1.1", LocalDateTime.now(), Duration.ofMinutes(15), epic.getId());
         taskManager.addEpic(epic);
         taskManager.addSubTask(subtask, epic.getId());
@@ -157,6 +156,6 @@ public class InMemoryTaskManagerTest {
     public void testIsCrossing() {
         Task task1 = new Task("Task 1", "Description 1", LocalDateTime.now(), Duration.ofHours(1));
         Task task2 = new Task("Task 2", "Description 2", task1.getStartTime().plusMinutes(59), Duration.ofHours(1));
-        Assert.assertTrue(taskManager.isCrossing(task1, task2));
+        Assert.assertTrue(taskManager.isCrossingWith(task1, task2));
     }
 }

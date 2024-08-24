@@ -43,8 +43,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (task.getStartTime() != null) {
 
             if (prioritizedTasks.stream()
-                    .anyMatch(prioritizedTask -> isCrossing(prioritizedTask, task)
-                            || (isCrossing(task, prioritizedTask)))) {
+                    .anyMatch(prioritizedTask -> isCrossingWith(prioritizedTask, task)
+                            || (isCrossingWith(task, prioritizedTask)))) {
                 System.out.println("Задача пересекается с другой.");
             } else {
                 prioritizedTasks.add(task);
@@ -72,8 +72,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
         if (subTask.getStartTime() != null) {
             if (prioritizedTasks.stream()
-                    .anyMatch(prioritizedTask -> isCrossing(prioritizedTask, subTask)
-                            || (isCrossing(subTask, prioritizedTask)))) {
+                    .anyMatch(prioritizedTask -> isCrossingWith(prioritizedTask, subTask)
+                            || (isCrossingWith(subTask, prioritizedTask)))) {
                 System.out.println("Подзадача пересекается с другой.");
             } else {
                 prioritizedTasks.add(subTask);
@@ -193,6 +193,15 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(int newId, Task task) {
         tasks.put(task.getId(), task);
+        if (task.getStartTime() != null) {
+            if (prioritizedTasks.stream()
+                    .anyMatch(prioritizedTask -> isCrossingWith(prioritizedTask, task)
+                            || (isCrossingWith(task, prioritizedTask)))) {
+                System.out.println("Подзадача пересекается с другой.");
+            } else {
+                prioritizedTasks.add(task);
+            }
+        }
     }
 
     @Override
@@ -205,7 +214,16 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubTask(int epicId, SubTask st) {
         subTasks.put(st.getId(), st);
         updateEpicStatus(epicId);
-
+        if (st.getStartTime() != null) {
+            if (prioritizedTasks.stream()
+                    .anyMatch(prioritizedTask -> isCrossingWith(prioritizedTask, st)
+                            || (isCrossingWith(st, prioritizedTask)))) {
+                System.out.println("Подзадача пересекается с другой.");
+            } else {
+                prioritizedTasks.add(st);
+                getEpicById(epicId).getEndTime();
+            }
+        }
     }
 
     @Override
@@ -280,8 +298,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public boolean isCrossing(Task task1, Task task2) {
-        return task1.getEndTime().isAfter(task2.getStartTime());
+    public boolean isCrossingWith(Task task1, Task task2) {
+        return isCrossing(task1, task2);
+    }
+
+    private boolean isCrossing(Task task1, Task task2) {
+        return task1.getEndTime().isAfter(task2.getStartTime()) && task1.getStartTime().isBefore(task2.getEndTime());
     }
 }
 
