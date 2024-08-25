@@ -61,4 +61,6 @@ public interface TaskManager {
 
     List<Task> getHistory();
 
+    boolean isCrossingWith(Task t1, Task t2);
+
 }

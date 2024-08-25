@@ -27,10 +27,11 @@ public class FileBackedTaskManagerTest {
     public void loadAndSaveFilesTest() throws IOException {
         File file = File.createTempFile("taskmanager", ".tmp");
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
-        Task task1 = new Task("task 1", "Description 1");
-        Epic epic1 = new Epic("epic1", "description");
-        SubTask subTask1 = new SubTask("st1.1", "subtask1.1", 1);
-        SubTask subTask2 = new SubTask("st1.2", "subtask1.2", 1);
+        Task task1 = new Task(1, "task 1", "Description 1");
+        Epic epic1 = new Epic(2, "epic1", "description");
+        SubTask subTask1 = new SubTask(3, "st1.1", "subtask1.1", 1);
+        SubTask subTask2 = new SubTask(4, "st1.2", "subtask1.2", 1);
+
 
         manager.addTask(task1);
         manager.addEpic(epic1);
