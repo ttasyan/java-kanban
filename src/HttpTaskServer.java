@@ -9,37 +9,37 @@ import managers.TaskManager;
 
 public class HttpTaskServer {
     private static final int PORT = 8080;
-    private HttpServer httpServer;
+    private static HttpServer server;
     public static Gson gson;
 
 
     TaskManager manager;
+
     public HttpTaskServer(TaskManager manager) {
         this.manager = manager;
     }
+
     public static void main(String[] args) throws IOException {
         TaskManager manager = new InMemoryTaskManager();
-        HttpTaskServer server = new HttpTaskServer(manager);
-       server.start();
-    }
-
-    public void start() throws IOException{
-        this.httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
-        this.httpServer.createContext("/tasks", new TaskHandler(manager));
-        this.httpServer.createContext("/epics", new EpicHandler(manager));
-        this.httpServer.createContext("/subtasks", new SubTaskHandler(manager));
-        this.httpServer.createContext("/history", new HistoryHandler(manager));
-        this.httpServer.createContext("/prioritized", new PrioritizedHandler(manager));
-        this.httpServer.start();
+        server = HttpServer.create(new InetSocketAddress(PORT), 0);
+        server.createContext("/tasks", new TaskHandler(manager));
+        server.createContext("/epics", new EpicHandler(manager));
+        server.createContext("/subtasks", new SubTaskHandler(manager));
+        server.createContext("/history", new HistoryHandler(manager));
+        server.createContext("/prioritized", new PrioritizedHandler(manager));
+        server.start();
         gson = new Gson();
         System.out.println("HTTP-сервер запущен на " + PORT + " порту!");
+        server.start();
     }
+
+    public void start() throws IOException {
+        server.start();
+    }
+
     public void stop() {
-        httpServer.stop(0);
+        server.stop(0);
         System.out.println("HTTP-сервер остановлен.");
     }
 
-    public static Gson getGson() {
-        return gson;
-    }
 }
