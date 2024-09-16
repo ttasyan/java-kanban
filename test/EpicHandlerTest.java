@@ -74,8 +74,6 @@ public class EpicHandlerTest {
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
 
-//            JsonElement epics = JsonParser.parseString(response.body());
-//            assertEquals(2, epics.getAsJsonArray().size(), "Некорректное количество эпиков");
         } catch (IOException | InterruptedException e) {
             System.out.println("Исключение: " + e.getMessage());
         }
