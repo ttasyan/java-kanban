@@ -8,10 +8,8 @@ import managers.InMemoryTaskManager;
 import managers.TaskManager;
 
 public class HttpTaskServer {
-    private static final int PORT = 8080;
     private static HttpServer server;
     public static Gson gson;
-
 
     TaskManager manager;
 
@@ -21,19 +19,18 @@ public class HttpTaskServer {
 
     public static void main(String[] args) throws IOException {
         TaskManager manager = new InMemoryTaskManager();
-        server = HttpServer.create(new InetSocketAddress(PORT), 0);
+        server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.createContext("/tasks", new TaskHandler(manager));
         server.createContext("/epics", new EpicHandler(manager));
         server.createContext("/subtasks", new SubTaskHandler(manager));
         server.createContext("/history", new HistoryHandler(manager));
         server.createContext("/prioritized", new PrioritizedHandler(manager));
-        server.start();
+        start();
         gson = new Gson();
-        System.out.println("HTTP-сервер запущен на " + PORT + " порту!");
-        server.start();
+        System.out.println("HTTP-сервер запущен на " + 8080 + " порту!");
     }
 
-    public void start() throws IOException {
+    public static void start() throws IOException {
         server.start();
     }
 

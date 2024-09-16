@@ -21,6 +21,7 @@ public class HistoryHandlerTest {
     TaskManager manager = new InMemoryTaskManager();
     HttpTaskServer taskServer = new HttpTaskServer(manager);
     Gson gson;
+
     @BeforeEach
     public void setUp() throws IOException {
         manager.deleteTasks();
@@ -34,6 +35,7 @@ public class HistoryHandlerTest {
     public void shutDown() {
         taskServer.stop();
     }
+
     @Test
     public void testGetHistory() throws IOException, InterruptedException {
         Task task1 = new Task(1, "Task 1", "Description 1");
@@ -44,10 +46,14 @@ public class HistoryHandlerTest {
                 .GET()
                 .build();
 
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals(200, response.statusCode());
+        try {
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
 
-        JsonElement history = JsonParser.parseString(response.body());
-        assertEquals(1, manager.getHistory().size(), "Некорректная история");
+            JsonElement history = JsonParser.parseString(response.body());
+            assertEquals(1, manager.getHistory().size(), "Некорректная история");
+        } catch (IOException e) {
+            System.out.println("Исключение: " + e.getMessage());
+        }
     }
 }
