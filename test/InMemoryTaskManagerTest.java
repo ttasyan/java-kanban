@@ -32,7 +32,7 @@ public class InMemoryTaskManagerTest {
     @Test
     public void addSubTaskTest() {
         SubTask subTask = new SubTask("tasks.SubTask 1", "Subtask description", LocalDateTime.now(), Duration.ofMinutes(5), 2);
-        taskManager.addSubTask(subTask, 2);
+        taskManager.addSubTask(subTask);
         Assert.assertEquals(subTask, taskManager.getSubTask(1));
     }
 
@@ -57,7 +57,7 @@ public class InMemoryTaskManagerTest {
         Task task = new Task("tasks.Task 1", "Description", LocalDateTime.now().plus(Duration.ofMinutes(16)), Duration.ofMinutes(15));
 
         taskManager.addEpic(epic);
-        taskManager.addSubTask(subtask, epic.getId());
+        taskManager.addSubTask(subtask);
         taskManager.addTask(task);
 
         Assert.assertEquals("tasks.Epic 1", taskManager.getEpic(1).getName());
@@ -91,7 +91,7 @@ public class InMemoryTaskManagerTest {
         Epic epic = new Epic(1, "tasks.Epic 1", "Description 1", LocalDateTime.now());
         SubTask subtask = new SubTask("Subtask 1", "Description 1.1", LocalDateTime.now(), Duration.ofMinutes(15), epic.getId());
         taskManager.addEpic(epic);
-        taskManager.addSubTask(subtask, epic.getId());
+        taskManager.addSubTask(subtask);
         taskManager.deleteSubTask(subtask.getId(), epic.getId());
         Assert.assertEquals(1, epic.getSubTasksId().size());
     }
@@ -102,7 +102,7 @@ public class InMemoryTaskManagerTest {
         Epic epic = new Epic(1, "tasks.Epic 1", "Description 1", LocalDateTime.now());
         SubTask subtask = new SubTask("Subtask 1", "Description 1.1", LocalDateTime.now(), Duration.ofMinutes(15), epic.getId());
         taskManager.addEpic(epic);
-        taskManager.addSubTask(subtask, epic.getId());
+        taskManager.addSubTask(subtask);
         taskManager.deleteEpic(epic.getId());
         Assert.assertEquals(0, taskManager.getSubTasks().size());
     }
