@@ -61,6 +61,7 @@ public interface TaskManager {
     List<SubTask> getSubTasksByEpicId(int epicId);
 
     List<Task> getHistory();
+
     public Set<Task> getPrioritizedTasks();
 
     boolean isCrossingWith(Task t1, Task t2);
