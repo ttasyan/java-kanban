@@ -11,10 +11,12 @@ public class BaseHttpHandler implements HttpHandler {
     public BaseHttpHandler(TaskManager manager) {
         this.taskManager = manager;
     }
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         sendText(exchange, "Привет!");
     }
+
     protected void sendText(HttpExchange h, String text) throws IOException {
         byte[] resp = text.getBytes(StandardCharsets.UTF_8);
         h.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
@@ -22,14 +24,16 @@ public class BaseHttpHandler implements HttpHandler {
         h.getResponseBody().write(resp);
         h.close();
     }
-    public void sendNotFound(HttpExchange h, String text) throws IOException{
+
+    public void sendNotFound(HttpExchange h, String text) throws IOException {
         byte[] resp = text.getBytes(StandardCharsets.UTF_8);
         h.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
         h.sendResponseHeaders(404, resp.length);
         h.getResponseBody().write(resp);
         h.close();
     }
-    public void sendHasInteractions(HttpExchange h) throws IOException{
+
+    public void sendHasInteractions(HttpExchange h) throws IOException {
         byte[] resp = "Объект пересекается с другим".getBytes(StandardCharsets.UTF_8);
         h.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
         h.sendResponseHeaders(406, resp.length);

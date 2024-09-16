@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class SubTaskHandler extends BaseHttpHandler {
     private Gson gson;
+
     public SubTaskHandler(TaskManager manager) {
         super(manager);
         this.taskManager = manager;

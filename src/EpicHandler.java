@@ -14,17 +14,18 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-public class EpicHandler extends BaseHttpHandler  {
+public class EpicHandler extends BaseHttpHandler {
     public EpicHandler(TaskManager taskManager) {
         super(Managers.getDefault());
     }
-    Gson gson =  new GsonBuilder()
+
+    Gson gson = new GsonBuilder()
             .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
             .create();
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException{
+    public void handle(HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
         String path = exchange.getRequestURI().getPath();
         String[] pathParts = path.split("/");
@@ -52,17 +53,18 @@ public class EpicHandler extends BaseHttpHandler  {
                     }
                     break;
                 case "DELETE":
-                    if (pathParts.length == 3 && pathParts[1].equals("epics") && !method.equals("POST") ) {
+                    if (pathParts.length == 3 && pathParts[1].equals("epics") && !method.equals("POST")) {
                         int id = Integer.parseInt(pathParts[2]);
                         handleDeleteEpic(exchange, id);
                     }
                     break;
             }
         } catch (
-    NoSuchElementException e) {
-        sendNotFound(exchange, "Not Found");
+                NoSuchElementException e) {
+            sendNotFound(exchange, "Not Found");
+        }
     }
-    }
+
     public void handleGetEpics(HttpExchange exchange) throws IOException {
         try {
             System.out.println("Началась обработка /epics запроса от клиента.");
@@ -116,16 +118,16 @@ public class EpicHandler extends BaseHttpHandler  {
     }
 
     public void handleGetEpicsSubtasks(HttpExchange exchange, int id) throws IOException {
-        try{
+        try {
             System.out.println("Началась обработка /epics запроса от клиента.");
-        String response = taskManager.getSubTasksByEpicId(id)
-                .stream().map(epic -> epic.toString()).collect(Collectors.joining("\n"));
-        exchange.sendResponseHeaders(200, response.getBytes().length);
+            String response = taskManager.getSubTasksByEpicId(id)
+                    .stream().map(epic -> epic.toString()).collect(Collectors.joining("\n"));
+            exchange.sendResponseHeaders(200, response.getBytes().length);
 
-        try (OutputStream os = exchange.getResponseBody()) {
-            os.write(response.getBytes());
-        }
-    } catch (IOException e) {
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(response.getBytes());
+            }
+        } catch (IOException e) {
             throw new IOException(e.getMessage());
         }
     }
