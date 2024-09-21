@@ -5,6 +5,7 @@ import tasks.SubTask;
 import tasks.Task;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
     List<Task> getTasks();
@@ -17,7 +18,7 @@ public interface TaskManager {
 
     void addEpic(Epic epic);
 
-    void addSubTask(SubTask subTask, int epicId);
+    void addSubTask(SubTask subTask);
 
     Task getTaskById(int id);
 
@@ -29,7 +30,7 @@ public interface TaskManager {
 
     void deleteEpics();
 
-    void deleteSubTasks(int epicId);
+    void deleteSubTasks();
 
     void printTask();
 
@@ -60,6 +61,8 @@ public interface TaskManager {
     List<SubTask> getSubTasksByEpicId(int epicId);
 
     List<Task> getHistory();
+
+    public Set<Task> getPrioritizedTasks();
 
     boolean isCrossingWith(Task t1, Task t2);
 

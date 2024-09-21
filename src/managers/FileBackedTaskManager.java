@@ -31,8 +31,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         manager.addTask(task1);
         manager.addTask(task2);
         manager.addEpic(epic1);
-        manager.addSubTask(subTask1, epic1.getId());
-        manager.addSubTask(subTask2, epic1.getId());
+        manager.addSubTask(subTask1);
+        manager.addSubTask(subTask2);
         System.out.println("Epics:");
         for (Epic epic : manager.getEpics()) {
             System.out.println(epic);
@@ -85,7 +85,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 if (task instanceof Epic) {
                     this.addEpic((Epic) task);
                 } else if (task instanceof SubTask) {
-                    this.addSubTask((SubTask) task, ((SubTask) task).getEpicId());
+                    this.addSubTask((SubTask) task);
                 } else {
                     this.addTask(task);
                 }
@@ -98,8 +98,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void addSubTask(SubTask subtask, int epicId) {
-        super.addSubTask(subtask, epicId);
+    public void addSubTask(SubTask subtask) {
+        super.addSubTask(subtask);
         save();
     }
 
@@ -128,8 +128,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void deleteSubTasks(int epicId) {
-        super.deleteSubTasks(epicId);
+    public void deleteSubTasks() {
+        super.deleteSubTasks();
         save();
     }
 

@@ -35,8 +35,8 @@ public class FileBackedTaskManagerTest {
 
         manager.addTask(task1);
         manager.addEpic(epic1);
-        manager.addSubTask(subTask1, epic1.getId());
-        manager.addSubTask(subTask2, epic1.getId());
+        manager.addSubTask(subTask1);
+        manager.addSubTask(subTask2);
 
 
         assertEquals(1, manager.getTasks().size());
